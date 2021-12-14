@@ -2,6 +2,7 @@ package com.idi.idi2021zoom.my_spring;
 
 import lombok.SneakyThrows;
 
+import javax.annotation.PostConstruct;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.*;
 import java.util.ArrayList;
@@ -31,12 +32,26 @@ public class ObjectFactory {
         type = resolveImpl(type);
         T t = create(type);
 
+
         configure(t);
+
+        runInit(type, t);
 
         t = wrapWithProxy(type, t);
 
-
         return t;
+    }
+
+    private <T> void runInit(Class<T> type, T t) throws IllegalAccessException, InvocationTargetException {
+        Method[] methods = type.getMethods();
+        for (Method method : methods) {
+            if(method.isAnnotationPresent(PostConstruct.class)){
+                method.invoke(t);
+            }
+           /* if (method.getName().startsWith("init")) {
+                method.invoke(t);
+            }*/
+        }
     }
 
     private <T> T wrapWithProxy(Class<T> type, T t) {

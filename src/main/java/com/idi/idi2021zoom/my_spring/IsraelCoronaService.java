@@ -1,5 +1,7 @@
 package com.idi.idi2021zoom.my_spring;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @author Evgeny Borisov
  */
@@ -10,6 +12,7 @@ public class IsraelCoronaService implements CoronaService {
     @InjectFromEnvironment(propertyName = "mutation.name")
     private String mutationName;
 
+    @PostConstruct
     public void init() {
         System.out.println("mutationName = " + mutationName);
     }

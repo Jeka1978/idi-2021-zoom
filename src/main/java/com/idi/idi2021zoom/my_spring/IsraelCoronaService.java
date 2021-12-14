@@ -1,5 +1,8 @@
 package com.idi.idi2021zoom.my_spring;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import javax.annotation.PostConstruct;
 
 /**

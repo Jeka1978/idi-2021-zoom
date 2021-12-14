@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="trumpeldorQuoter" class="real_spring_examples.TrumpeldorQuoter">
+        <property name="message" value="Good to die for our country"/>
+    </bean>
+
+
+    <bean id="shakespearQuoter" class="real_spring_examples.ShakespearQuoter">
+        <property name="quotes">
+            <list>
+                <value>All life is a stage</value>
+                <value>2 b || ! 2 b</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

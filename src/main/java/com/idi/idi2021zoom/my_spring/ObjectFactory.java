@@ -3,10 +3,7 @@ package com.idi.idi2021zoom.my_spring;
 import lombok.SneakyThrows;
 
 import java.lang.invoke.SerializedLambda;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,46 +14,52 @@ public class ObjectFactory {
 
     private ApplicationContext context;
     private List<ObjectConfigurator> configurators = new ArrayList<>();
+    private List<ProxyConfigurator> proxyConfigurators = new ArrayList<>();
 
     public ObjectFactory(ApplicationContext context) {
         this.context = context;
         configurators.add(new InjectByTypeObjectConfigurator(context));
         configurators.add(new InjectFromEnvironmentObjectConfigurator(context.getEnvironment()));
+        proxyConfigurators.add(new ProfilngProxyConfigurator());
     }
+
 
 
 
     @SneakyThrows
     public <T> T createObject(Class<T> type) {
-        if (type.isInterface()) {
-            type = context.getConfig().getImplClass(type);
-        }
-        T t = type.getDeclaredConstructor().newInstance();
+        type = resolveImpl(type);
+        T t = create(type);
 
+        configure(t);
+
+        t = wrapWithProxy(type, t);
+
+
+        return t;
+    }
+
+    private <T> T wrapWithProxy(Class<T> type, T t) {
+        for (ProxyConfigurator proxyConfigurator : proxyConfigurators) {
+            t = (T) proxyConfigurator.wrapWithProxyIfNeeded(t, type);
+        }
+        return t;
+    }
+
+    private <T> void configure(T t) {
         for (ObjectConfigurator configurator : configurators) {
             configurator.configure(t);
         }
+    }
 
-        if (type.isAnnotationPresent(Profiling.class)) {
-            return (T) Proxy.newProxyInstance(ClassLoader.getSystemClassLoader(), type.getInterfaces(),
-                    new InvocationHandler() {
-                        @Override
-                        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    private <T> T create(Class<T> type) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        return type.getDeclaredConstructor().newInstance();
+    }
 
-                            System.out.println("******* profiling started for method: "+method.getName()+"  ******");
-                            long start = System.nanoTime();
-                            Object retVal = method.invoke(t, args);
-                            long end = System.nanoTime();
-                            System.out.println(end-start);
-                            System.out.println("******* profiling ended for method: "+method.getName()+"  ******");
-
-                            return retVal;
-                        }
-                    }
-
-            );
+    private <T> Class<T> resolveImpl(Class<T> type) {
+        if (type.isInterface()) {
+            type = context.getConfig().getImplClass(type);
         }
-
-        return t;
+        return type;
     }
 }

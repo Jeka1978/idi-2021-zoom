@@ -10,6 +10,9 @@ public class IsraelCoronaService implements CoronaService {
     @InjectFromEnvironment(propertyName = "mutation.name")
     private String mutationName;
 
+    public void init() {
+        System.out.println("mutationName = " + mutationName);
+    }
 
     @Override
     public double getTax() {

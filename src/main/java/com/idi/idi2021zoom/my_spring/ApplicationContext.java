@@ -26,7 +26,7 @@ public class ApplicationContext {
         environment = new Environment();
         objectFactory = new ObjectFactory(this);
 
-    /*    Set<Class> classes =scanner.scanPackagesAndLookForComponents(config.getPackageToScan())
+       /* Set<Class> classes =scanner.scanPackagesAndLookForComponents(config.getPackageToScan())
         for (Class aClass : classes) {
             singletonContainer.put(aClass, objectFactory.createObject(aClass));
         }*/

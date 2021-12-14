@@ -15,6 +15,10 @@ public class IsraelTaxService implements TaxService {
     @InjectFromContext
     private CoronaService coronaService;
 
+    public IsraelTaxService() {
+//        System.out.println(maamResolver.getClass());
+    }
+
     @Override
     public double withTax(double price) {
         return price+ price* maamResolver.getVat() +price*coronaService.getTax();

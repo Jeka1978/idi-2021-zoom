@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <bean id="robot" class="real_spring_examples.TalkingRobot">
+       <!-- <property name="quoters">
+            <list>
+                <ref bean="shakespearQuoter"/>
+                <ref bean="trumpeldorQuoter"/>
+            </list>
+        </property>-->
+    </bean>
+
+
+
+<!--    <context:component-scan base-package="com.idi"/>-->
+
+    <bean id="b1" class="real_spring_examples.InjectRandomSupportBeanPostProcessor"/>
 
 
     <bean id="trumpeldorQuoter" class="real_spring_examples.TrumpeldorQuoter">
-        <property name="message" value="Good to die for our country"/>
+        <property name="message" value="${trumpeldor}"/>
     </bean>
+
+
+    <context:property-placeholder location="quotes.properties"/>
 
 
     <bean id="shakespearQuoter" class="real_spring_examples.ShakespearQuoter">

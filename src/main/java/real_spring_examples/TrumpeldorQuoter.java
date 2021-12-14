@@ -1,6 +1,8 @@
 package real_spring_examples;
 
 import lombok.Setter;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Evgeny Borisov

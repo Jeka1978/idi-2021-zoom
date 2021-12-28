@@ -1,7 +1,8 @@
 package real_spring_examples;
 
-import lombok.Setter;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -9,10 +10,9 @@ import java.util.List;
 /**
  * @author Evgeny Borisov
  */
+@Component
 public class TalkingRobot {
 
-
-    @Setter
     @Autowired
     private List<Quoter> quoters;
 
@@ -20,8 +20,6 @@ public class TalkingRobot {
     public void talk() {
         quoters.forEach(Quoter::sayQuote);
     }
-
-
 
 
 }

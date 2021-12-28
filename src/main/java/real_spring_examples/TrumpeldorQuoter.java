@@ -1,18 +1,18 @@
 package real_spring_examples;
 
-import lombok.Setter;
-import org.springframework.core.annotation.Order;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
  * @author Evgeny Borisov
  */
+@Component
 public class TrumpeldorQuoter implements Quoter {
 
-    @Setter
+    @Value("${trumpeldor}")
     private String message;
 
-    @InjectRandom(min = 3,max = 7)
+    @InjectRandom(min = 3, max = 7)
     private int repeat;
 
     @Override

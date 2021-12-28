@@ -11,8 +11,9 @@ import java.util.List;
  * @author Evgeny Borisov
  */
 
+@Component
 public class ShakespearQuoter implements Quoter {
-    @Setter
+    @Value("${shake}")
     private List<String> quotes;
 
     @Value("${JAVA_HOME}") // just example

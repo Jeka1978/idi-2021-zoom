@@ -11,7 +11,7 @@ import java.util.Random;
 /**
  * @author Evgeny Borisov
  */
-@Component("b1")
+@Component
 public class InjectRandomSupportBeanPostProcessor implements BeanPostProcessor {
     @SneakyThrows
     @Override

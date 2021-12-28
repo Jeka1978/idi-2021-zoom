@@ -1,15 +1,22 @@
 package lab.qualifiers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Random;
 
 /**
  * @author Evgeny Borisov
  */
+@Service
 public class MainIdiService {
 
+    @ModeQualifier(Modes.REGULAR)
     private WordDao wordDao;
 
+    @ModeQualifier(Modes.BACKUP)
     private WordDao wordDaoBackup;
 
     private List<String> words = List.of("java", "scala", "groovy", "kotlin", "Jython");
@@ -21,13 +28,14 @@ public class MainIdiService {
         return words.get(i);
     }
 
-    //this method should work each second
+
+    @Scheduled(fixedDelay = 1000)
     public void doWork(){
         String word = getNeededData();
         wordDao.saveWord(word);
     }
 
-    //this method should work each 3 seconds
+    @Scheduled(fixedDelay = 3000)
     public void doBackup(){
         String word = getNeededData();
         wordDaoBackup.saveWord(word);

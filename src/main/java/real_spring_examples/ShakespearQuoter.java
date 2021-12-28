@@ -1,20 +1,24 @@
 package real_spring_examples;
 
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * @author Evgeny Borisov
  */
 
-@Component
+
+@BookComponent
 public class ShakespearQuoter implements Quoter {
-    @Value("${shake}")
+
     private List<String> quotes;
+
+    @Value("${shake}")
+    public void setQuotes(String[] quotes) {
+        this.quotes = Arrays.asList(quotes);
+    }
 
     @Value("${JAVA_HOME}") // just example
     private String javaHome;
